@@ -1,0 +1,43 @@
+﻿@using WebDBApp.Helpers;
+@using WebDBApp.Enum;
+@model WebDBApp.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Home Page";
+    var role = SessionHelper.GetElement<string>(SessionElement.Role);
+}
+    <h2 class="text-center" style="font-size: 40px"><kbd>Our Buildings</kbd></h2>
+<div class="row center-block">
+    @foreach(var building in Model.Buildings)
+    {
+
+    <div class="col-md-6 panel panel-default">
+        <h2>@(building.BuildingDetails.Name)</h2>
+        <hr>
+        <h4><strong style="font-size: 20px;">Address: </strong> @(building.BuildingDetails.Address)</h4>
+        <h4><strong style="font-size: 20px;">Phone: </strong> @(building.BuildingDetails.ContactPhone)</h4>
+        <h4><strong style="font-size: 20px;">Email: </strong> @(building.BuildingDetails.Email)</h4>
+        <p>
+            <strong style="font-size: 20px;">Description:</strong>
+            <p class="col-lg-offset-1">@(building.BuildingDetails.Description)</p>
+        </p>
+        @if(role == "Administrator")
+        {
+        <a href="@Url.Action("EditBuilding", "Home" , new { id=building.ID })">
+            Edit Building
+            <span class="glyphicon glyphicon-edit"></span>
+        </a>
+        }
+
+    </div>
+
+    }
+</div>
+@if(role == "Administrator")
+{
+<div class="row center-block">
+    <div class="col-lg-2">
+        <input type="button" class="btn btn-success" onclick="window.location = '/Home/NewBuilding';" value="Add Building"/>
+    </div>
+   
+</div>
+}

@@ -1,0 +1,160 @@
+﻿@using WebDBApp.Helpers;
+@using WebDBApp.Enum;
+@{
+    var role = SessionHelper.GetElement<string>(SessionElement.Role);
+}
+    <!DOCTYPE html>
+    <html>
+    <head>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link href="~/Content/main.css" type="text/css" rel="stylesheet" />
+        <link href="~/Content/home.css" type="text/css" rel="stylesheet" />
+        <link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
+
+        <link href="~/Content/navbar.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css" rel="stylesheet" />
+        <script src="~/Scripts/jquery-3.2.1.js"></script>
+        <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+        <script src="~/Scripts/lib/jquery.min.js"></script>
+        <script src="~/Scripts/lib/jquery-ui.min.js"></script>
+        <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="/scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/angular.min.js"></script>
+        <script src="~/Scripts/angular-ui-router.min.js"></script>
+        <script src="~/Scripts/moment-with-locales.min.js"></script>
+        <script src="~/Scripts/fullcalendar.min.js"></script>
+        <script src="~/Scripts/calendar/calendar.js"></script>
+        <script src="~/Scripts/gcal.js"></script>
+        <script src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>
+        <script src="~/Scripts/moment.min.js"></script>
+        <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/Scripts/Login/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+        <title>@ViewBag.Title</title>
+    </head>
+    <body>
+        @*@Html.ActionLink("MTAB", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <span class="navbar-brand">MTAB</span>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Home" )">
+                        <span class="glyphicon glyphicon-home"></span>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Calendar" )">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        Scheduler
+                    </a>
+                </li>
+                @*<li>
+                    <a href="@Url.Action("Index", "Tests" )">
+                        <span class="glyphicon glyphicon-scale"></span>
+                        Test Yourself!
+                    </a>
+                </li>*@
+                @if(role == "Organizator")
+                {
+                <li>
+                    <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" style="color: #000">Organizer
+                        <span class="caret"></span>
+                        <span class="sr-only"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="@Url.Action("NewEvent", "Calendar" )">
+                                <span class="glyphicon glyphicon-bookmark"></span>
+                                New Event
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("OwnerEvent", "Calendar" )">
+                                <span class="glyphicon glyphicon-bookmark"></span>
+                                Your Events
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("OrdersForUser", "Order" )">
+                                <span class="glyphicon glyphicon-bookmark"></span>
+                                My Orders
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("NewOrder", "Order" )">
+                                <span class="glyphicon glyphicon-bookmark"></span>
+                                New Order
+                            </a>
+                        </li>
+                    </ul>  
+                </li> 
+                }
+                else if(role =="Administrator") 
+                {
+                <li>
+                    <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown"style="color: #000">Worker
+                        <span class="caret"></span>
+                        <span class="sr-only"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="@Url.Action("Index", "Order" )">
+                                <span class="glyphicon glyphicon-bookmark"></span>
+                                Orders
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Room" )">
+                                <span class="glyphicon glyphicon-bookmark"></span>
+                                Rooms
+                            </a>
+                        </li>
+                    </ul>  
+                </li> 
+                }              
+                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="@Url.Action("Index", "Profile" )">
+                        Your Meetings
+                        <span class="glyphicon glyphicon-tent"></span>
+                    </a>
+                </li>
+                @if(role == "Administrator")
+                {
+                     <li>
+                         <a href="@Url.Action("Index", "Users" )">
+                             User Managment
+                             <span class="glyphicon glyphicon-cog"></span>
+                         </a>
+                     </li>
+                }
+                
+                <li>
+                    <a href="@Url.Action("Logout", "Login" )">
+                        Log out
+                        <span class="glyphicon glyphicon-log-out"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="viewContent">
+            <div class="row">
+                <div class="col-md-6" style="float: none; margin: 0 auto;">
+                    <div id="errorPlaceHolder"></div>
+                </div>
+            </div>
+            @RenderBody()
+        </div>
+    </body>
+</html>
